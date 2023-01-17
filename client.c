@@ -1,31 +1,46 @@
-#include <unistd.h>
-#include "ft_printf.h"
-#include <stdio.h>
-#include <signal.h>
-#include <string.h>
-#include <stdlib.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: arahmoun <arahmoun@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/17 20:53:58 by arahmoun          #+#    #+#             */
+/*   Updated: 2023/01/17 20:58:12 by arahmoun         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int main(int ac, char *av[])
+#include "ft_printf.h"
+#include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+
+int	main(int ac, char *av[])
 {
-    if(ac != 3)
-        return 0;
-    int i = 0;
-    int bit = 0;
-    pid_t pid = atoi(av[1]);
-    ft_printf("%ssend to server:%s %d \n", GREEN, DEFFAULT,pid);
-    while (av[2][i])
-    {
-        bit = 0;
-        while (bit < 8)
-        {
-            if((av[2][i] & 1 << bit) != 0)
-                kill(pid, SIGUSR1);
-            else
-                kill(pid, SIGUSR2);
-            bit++;
-            usleep(1250);
-        }
-        i++;
-    }
-    return 0;
+	int	i;
+	int	bit;
+	int	pid;
+
+	if (ac != 3)
+		return (0);
+	i = 0;
+	pid = atoi(av[1]);
+	ft_printf("%ssend to server:%s %d \n", GREEN, DEFFAULT, pid);
+	while (av[2][i])
+	{
+		bit = 0;
+		while (bit < 8)
+		{
+			if ((av[2][i] & 1 << bit) != 0)
+				kill(pid, SIGUSR1);
+			else
+				kill(pid, SIGUSR2);
+			bit++;
+			usleep(1250);
+		}
+		i++;
+	}
+	return (0);
 }
